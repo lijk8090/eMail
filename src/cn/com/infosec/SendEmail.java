@@ -21,10 +21,28 @@ import com.sun.mail.smtp.SMTPTransport;
 
 public class SendEmail {
 
+	private static void addAMessage(Multipart multiPart, String message) throws Exception {
+
+		BodyPart bodyPart = new MimeBodyPart();
+		bodyPart.setText(message);
+		multiPart.addBodyPart(bodyPart);
+	}
+
+	private static void addAttachment(Multipart multiPart, String filename) throws Exception {
+
+		DataSource source = new FileDataSource(filename);
+		BodyPart bodyPart = new MimeBodyPart();
+
+		bodyPart.setDataHandler(new DataHandler(source));
+		bodyPart.setFileName(filename);
+
+		multiPart.addBodyPart(bodyPart);
+	}
+
 	public static void main(String[] args) {
 
 		String username = "lijk@infosec.com.cn";
-		String password = "********";
+		String password = "Ljk19881016";
 
 		String from = "lijk@infosec.com.cn";
 		String to = "zhaoxy@infosec.com.cn";
@@ -49,6 +67,7 @@ public class SendEmail {
 		properties.put("mail.smtp.auth", auth);
 
 		Session session = Session.getDefaultInstance(properties, new Authenticator() {
+			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(username, password);
 			}
@@ -69,15 +88,11 @@ public class SendEmail {
 
 			Multipart multiPart = new MimeMultipart();
 
-			BodyPart bodyPart = new MimeBodyPart();
-			bodyPart.setText(message);
-			multiPart.addBodyPart(bodyPart);
+			addAMessage(multiPart, message);
+			addAMessage(multiPart, message);
 
-			BodyPart attachPart = new MimeBodyPart();
-			DataSource source = new FileDataSource(filename);
-			attachPart.setDataHandler(new DataHandler(source));
-			attachPart.setFileName(filename);
-			multiPart.addBodyPart(attachPart);
+			addAttachment(multiPart, filename);
+			addAttachment(multiPart, filename);
 
 			mime.setContent(multiPart);
 
