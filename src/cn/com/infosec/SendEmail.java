@@ -42,7 +42,7 @@ public class SendEmail {
 	public static void main(String[] args) {
 
 		String username = "lijk@infosec.com.cn";
-		String password = "Ljk19881016";
+		String password = "********";
 
 		String from = "lijk@infosec.com.cn";
 		String to = "zhaoxy@infosec.com.cn";
